@@ -9,6 +9,15 @@
     backup: yes
 
 - name: enable repos
- 
-- name: install base tools and packages
+  template:
+    src: "{{ item }}"
+    dest: /etc/yum.repos.d/
+    mode: 0644
+  with_fileglob:
+    - "{{role_path}}/templates/repos/*"
 
+- name: install base tools and packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ base_packages }}"

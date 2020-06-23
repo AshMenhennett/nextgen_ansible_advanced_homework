@@ -4,3 +4,8 @@
   gather_facts: true
   roles:
    - osp-servers
+   - osp-facts
+   - role: base-config
+     vars:
+       base_packages: []
+     

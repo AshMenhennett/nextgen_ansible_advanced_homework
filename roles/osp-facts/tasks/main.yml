@@ -1,8 +1,10 @@
----
+--
 # tasks file for osp-facts
+- name: OSP In Memory Inventory
+  block: 
    - name: Fetch Instance Info
      os_server_info:
-      cloud: openstack
+      cloud: devstack
      register: result
    - name: Add host
      add_host:

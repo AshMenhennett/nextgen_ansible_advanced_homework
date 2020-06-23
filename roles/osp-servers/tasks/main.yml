@@ -1,3 +1,35 @@
 ---
 
 # tasks file for osp.servers
+- name: Provision QA Virual Machines
+  block:
+    - name: Provision OSP Instance
+      osp_server:
+        name: "{{item.value.name}}"
+        state: "{{item.value.state}}"
+        image: "{{item.value.image}}"
+        key_name: "{{item.value.key_name}}"
+        flavor: "{{item.value.flavor}}"
+        nics: ["{{item.value.net_interface}}"]
+        meta: "{{item.value.meta[0]}}"
+        security_groups: ["{{item.value.security_group}}"]
+        user_data: "{{global_userdata}}"
+      loop: "{{osp_servers | dict2items}}"
+    
+    - name: Allocate Externally Routable IP
+      os_floating_ip:
+        state: "{{item.value.state}}"
+        server: "{{item.value.name}}"
+        network: "{{item.value.ext_network}}"
+        nat_destination: "{{item.value.int_network}}"
+      loop: "{{osp_servers | dict2items}}"
+
+  resuce: 
+    - name: Output Failure Message
+      debug:
+        msg: "OSP Provisioning Failed. Cleaning up Environment."
+    - name: Clean up Failed Instances
+      osp_server: 
+        name: "{{item.value.name}}"
+        state: absent
+      loop: "{{osp_servers | dict2items}}"
