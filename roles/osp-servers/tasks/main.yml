@@ -24,7 +24,7 @@
         nat_destination: "{{item.value.int_network}}"
       loop: "{{osp_servers | dict2items}}"
 
-  resuce: 
+  rescue: 
     - name: Output Failure Message
       debug:
         msg: "OSP Provisioning Failed. Cleaning up Environment."
