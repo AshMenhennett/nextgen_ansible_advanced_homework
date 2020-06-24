@@ -1,13 +1,12 @@
 ---
 # tasks file for roles/osp-instance-delete
   - name: Fetch Instance Info
-    osp_server_info:
+    os_server_info:
       cloud: devstack
     register: osp_env
 
   - name: Clean up Failed Instances
-    osp_server:
-      name: "{{item.value.name}}"
+    os_server:
+      name: "{{item.name}}"
       state: absent
-    loop: "{{osp_env.openstack_servers}}"
-
+    loop: "{{osp_env.openstack_servers }}"

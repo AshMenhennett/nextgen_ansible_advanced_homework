@@ -1,5 +1,5 @@
 ---
-- name: 
+- name: Install Tomcat
   block:
     - name: Install tomcat
       package: 
@@ -12,8 +12,8 @@
         name: tomcat
         state: started
         enabled: yes
-    tags: 
-      - "tomcat:install"
+  tags: 
+    - "tomcat:install"
 
 - name: Configure tomcat
   block:

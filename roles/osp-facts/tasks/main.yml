@@ -1,4 +1,4 @@
---
+---
 # tasks file for osp-facts
 - name: OSP In Memory Inventory
   block: 

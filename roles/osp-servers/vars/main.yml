@@ -8,7 +8,8 @@ osp_servers:
     key_name: ansible_ssh
     flavor: m1.medium
     security_group: frontend
-    net_interface: int_network
+    net_interface: 
+      - net-name: int_network
     int_network: int_network
     ext_network: ext_network
     meta:
@@ -20,7 +21,8 @@ osp_servers:
     key_name: ansible_ssh
     flavor: m1.medium
     security_group: apps
-    net_interface: int_network
+    net_interface: 
+      - net-name: int_network
     int_network: int_network
     ext_network: ext_network
     meta:
@@ -32,7 +34,8 @@ osp_servers:
     key_name: ansible_ssh
     flavor: m1.medium
     security_group: apps
-    net_interface: int_network
+    net_interface: 
+      - net-name: int_network
     int_network: int_network
     ext_network: ext_network
     meta:
@@ -44,7 +47,8 @@ osp_servers:
     key_name: ansible_ssh
     flavor: m1.medium
     security_group: db
-    net_interface: int_network
+    net_interface: 
+      - net-name: int_network
     int_network: int_network
     ext_network: ext_network
     meta:

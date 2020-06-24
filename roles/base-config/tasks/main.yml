@@ -10,11 +10,12 @@
 
 - name: enable repos
   template:
-    src: "{{ item }}"
-    dest: /etc/yum.repos.d/
+    src: "{{ item.src }}"
+    dest: "/etc/yum.repos.d/{{ item.path }}"
     mode: 0644
-  with_fileglob:
-    - "{{role_path}}/templates/repos/*"
+  with_filetree:
+    - "{{role_path}}/templates/repos"
+  when: '".repo" in item.path'
 
 - name: install base tools and packages
   package:

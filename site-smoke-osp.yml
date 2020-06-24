@@ -11,7 +11,9 @@
 
   - name: Curl website
     uri:
-      url: "{{ item.public_v4 }}"
-    loop: osp_frontends
+      url: "http://{{ item.public_v4 }}"
+      return_content: yes
+      status_code: 200
+    loop: "{{ osp_frontends.openstack_servers }}"
     register: webpage
-    failed_when: 'Ansible has done its job' not in webpage.content
+    failed_when: '"Ansible has done its job" not in webpage.content'
