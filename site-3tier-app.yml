@@ -12,7 +12,7 @@
   become: yes
   roles:
     - {name: base-config, tags: base-config}
-    - {name: lb-tier, tags: [lbs, haproxy]}
+    - {name: lb-tier, vars: {backend_port: {{apps_port}}, listen_port: {{frontend_port}}}, tags: [lbs, haproxy]}
 
 # Setup application servers tier
 
@@ -22,7 +22,7 @@
   gather_facts: false
   roles:
     - {name: base-config, tags: base-config}
-    - {name: app-tier, tags: [apps, tomcat]}
+    - {name: app-tier, vars: {tomcat_listen_port: {{apps_port}}}, tags: [apps, tomcat]}
 
 # Setup database tier
 
@@ -31,4 +31,4 @@
   hosts: appdbs
   roles:
     - {name: base-config, tags: base-config}
-    - {name: db-tier, tags: [dbs, postgres]}
+    - {name: bihealth.postgres_server, postgres_server_initdb_become: yes, postgres_server_user: root, tags: [dbs, postgres]}

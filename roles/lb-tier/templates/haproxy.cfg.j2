@@ -17,7 +17,7 @@ defaults
         timeout server 50000
 
 frontend hafrontend
-    bind *:80
+    bind *:{{listen_port}}
     mode http
     default_backend app-servers
 
@@ -26,5 +26,5 @@ backend app-servers
     balance roundrobin
     option forwardfor
 {% for host in groups['apps'] %}
-    server app{{loop.index}} {{hostvars[host]['inventory_hostname']}}:8080 cookie app{{loop.index}} check
+    server app{{loop.index}} {{hostvars[host]['inventory_hostname']}}:{{backend_port}} cookie app{{loop.index}} check
 {% endfor %}

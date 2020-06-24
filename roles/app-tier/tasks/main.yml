@@ -1,2 +1,39 @@
 ---
+- name: 
+  block:
+    - name: Install tomcat
+      package: 
+        name: tomcat
+        state: present
+      notify: restart tomcat
 
+    - name: Start tomcat
+      service:
+        name: tomcat
+        state: started
+        enabled: yes
+    tags: 
+      - "tomcat:install"
+
+- name: Configure tomcat
+  block:
+    - name: Ensure web directory
+      file: 
+        path: "{{tomcat_webapp_dir}}"
+        state: directory
+
+    - name: Template Index
+      template: 
+        src: index.html.j2
+        dest: "{{tomcat_webapp_dir}}/index.html"
+        mode: 0644
+      notify: restart tomcat
+
+    - name: Template Server Conf
+      template:
+        src: server.xml.j2
+        dest: "/usr/share/tomcat/conf/server.xml"
+        mode: 0644
+      notify: restart tomcat
+  tags: 
+    - "tomcat:configure"

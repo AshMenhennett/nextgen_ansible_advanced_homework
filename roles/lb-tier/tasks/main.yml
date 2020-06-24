@@ -1,3 +1,27 @@
 ---
+- name: Install LoadBalancer
+  block:
 
+  - name: Install HAProxy
+    package:
+      name: haproxy
+      state: latest
+    notify: restart haproxy
 
+  - name: Start and Enable HAProxy
+    service: 
+      name: haproxy
+      state: started
+      enabled: yes
+  tags:
+    - "haproxy:install"
+
+- name: Configure HAProxy
+  block:
+    - name: Prepare Configuration
+      template: 
+        src: haproxy.cfg.j2
+        dest: /etc/haproxy/haproxy.cfg
+      notify: restart haproxy
+  tags:
+    - "haproxy:configure"

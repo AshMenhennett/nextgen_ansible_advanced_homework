@@ -1,0 +1,5 @@
+---
+
+tomcat_listen_port: 8080
+tomcat_webapp: ROOT
+tomcat_webapp_dir: /usr/share/tomcat/webapps/{{tomcat_webapp}}
