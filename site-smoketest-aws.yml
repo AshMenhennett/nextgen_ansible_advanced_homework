@@ -10,7 +10,7 @@
       return_content: yes
       status_code: 200
     register: webpage
-    failed_when: '"{{apps_validation_content}}" not in webpage.content'
+    failed_when: apps_validation_content not in webpage.content
 
   - name: Debug Web Content
     debug: 
