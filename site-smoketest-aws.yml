@@ -1,5 +1,8 @@
 - hosts: frontends
   gather_facts: false
+  pre_tasks: 
+  - name: Include Common Vars
+    include_vars: vars/common-vars.yml
   tasks:
   - name: HTTP Request Frontend
     uri:

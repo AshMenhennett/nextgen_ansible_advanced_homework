@@ -1,5 +1,8 @@
 - hosts: workstation
   gather_facts: false
+  pre_tasks: 
+  - name: Include Common Vars
+    include_vars: vars/common-vars.yml
   tasks:
   - name: Get OpenStack Instances
     os_server_info:
