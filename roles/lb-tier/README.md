@@ -1,7 +1,7 @@
-Create In-Memory OSP Inventory
+3-Tier Application Load Balancers
 =========
 
-Gather all OSP Instances by Metadata into in-memory Inventory
+Configure the HAProxy Application Load Balancers.
 
 Requirements
 ------------
@@ -11,7 +11,10 @@ N/A
 Role Variables
 --------------
 
-N/A
+```yaml
+backend_port: 8080
+listen_port: 80
+```
 
 Dependencies
 ------------
@@ -24,10 +27,12 @@ Example Playbook
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
 ```yaml
-- hosts: workstation
-  gather_facts: true
+- name: setup load-balancer tier
+  hosts: frontends
+  become: yes
   roles:
-  - name: osp-facts
+    - {name: base-config, tags: base-config}
+    - {name: lb-tier, backend_port: "{{apps_port}}", listen_port: "{{frontend_port}}", tags: [lbs, haproxy]}
 ```
 
 License

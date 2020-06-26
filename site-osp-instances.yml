@@ -4,9 +4,3 @@
   gather_facts: true
   roles:
    - osp-servers
-   #- osp-facts
-   #- role: base-config
-   #  vars:
-   #    base_packages: []
-   #    own_repo_path: http://192.168.0.5/repos
-     

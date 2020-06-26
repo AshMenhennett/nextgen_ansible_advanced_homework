@@ -1,9 +1,20 @@
-==== Ansible Tower Config
+= e2e CICD for QA and Production Environments - MitziCom
 
+Complete Solution for CICD Workflow of the infamous 3-tier application (HAProxy, JVM Backends, Postgres DataStore)
 
-* From the cloned repo run `site-config-tower.yml` playbook to create job templates and workflow template.
+== Orchestration
 
+CICD Workflow designed for flexible and extensible deployments, driven by Ansible Tower
 
+== Getting Started
+
+To get started you will need to fork this Repository and configure your Ansible Tower Environment.
+
+=== Ansible Tower Config
+
+Run the `site-config-tower.yml` playbook to create job templates and workflow template in your Ansible Tower Environment.
+
+== Repository Contents
 
 .List of Playbooks
 [%header,cols=2*]

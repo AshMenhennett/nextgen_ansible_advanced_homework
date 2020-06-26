@@ -6,17 +6,15 @@
      os_server_info:
       cloud: devstack
      register: result
-   - name: Add host
+
+   - name: Add OSP host by Group
      add_host:
       name: "{{ item.public_v4 }}"
       group: "{{ item.metadata.group }}"
-      # ansible_ssh_private_key_file: ~/.ssh/openstack.pem
-      # ansible_ssh_user: cloud-user
      with_items: "{{result.openstack_servers}}"
-   - name: Add host
+
+   - name: Add OSP host by Deployment
      add_host:
       name: "{{ item.public_v4 }}"
       group: "{{ item.metadata.deployment_name }}"
-      #      ansible_ssh_private_key_file: ~/.ssh/openstack.pem
-      #  ansible_ssh_user: cloud-user
      with_items: "{{result.openstack_servers}}"

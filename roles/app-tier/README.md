@@ -1,7 +1,7 @@
-Workstation Setup
+Application Tier Deployment
 =========
 
-Configure the OpenStack environment.
+Deploy the Application Tier
 
 Requirements
 ------------
@@ -11,7 +11,11 @@ N/A
 Role Variables
 --------------
 
-N/A
+```yaml
+tomcat_listen_port: 8080
+tomcat_webapp: ROOT
+tomcat_webapp_dir: /usr/share/tomcat/webapps/{{tomcat_webapp}}
+```
 
 Dependencies
 ------------
@@ -24,18 +28,13 @@ Example Playbook
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
 ```yaml
-- hosts: localhost
-  tasks:
-  - name: Create workstation inventory
-    add_host:
-       name: "workstation-{{OSP_GUID}}.rhpds.opentlc.com"
-       group: workstation
-
-
-- hosts: workstation
+- name: setup app tier
+  hosts: apps
   become: yes
+  gather_facts: false
   roles:
-    - setup-workstation
+    - {name: base-config, tags: base-config}
+    - {name: app-tier, tomcat_listen_port: "{{apps_port}}", tags: [apps, tomcat]}
 ```
 
 License

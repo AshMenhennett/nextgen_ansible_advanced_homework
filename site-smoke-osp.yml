@@ -1,7 +1,7 @@
 - hosts: workstation
   gather_facts: false
   tasks:
-  - name: OpenStack servers
+  - name: Get OpenStack Instances
     os_server_info:
       cloud: devstack
       server: frontend*
@@ -9,11 +9,11 @@
         vm_state: active
     register: osp_frontends
 
-  - name: Curl website
+  - name: Frontend HTTP Request
     uri:
-      url: "http://{{ item.public_v4 }}"
+      url: "{{ frontend_protocol }}://{{ item.public_v4 }}"
       return_content: yes
       status_code: 200
     loop: "{{ osp_frontends.openstack_servers }}"
     register: webpage
-    failed_when: '"Ansible has done its job" not in webpage.content'
+    failed_when: '"{{apps_validation_content}}" not in webpage.content'

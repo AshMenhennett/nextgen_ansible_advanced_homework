@@ -14,8 +14,8 @@ galaxy_info:
     - 8
 
   galaxy_tags:
-    - setup
-    - osp
-    - inventory
+    - rhel
+    - configure
+    - yum-repo
 
 dependencies: []

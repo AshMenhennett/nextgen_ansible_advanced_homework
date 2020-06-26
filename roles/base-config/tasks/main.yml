@@ -1,24 +1,31 @@
 ---
 # Initial, common, system setup steps
+- name: Configure System
+  block:
+    - name: enable sudo without tty for some ansible commands
+      replace:
+        path: /etc/sudoers
+        regexp: '^Defaults\s*requiretty'
+        replace: 'Defaults  !requiretty'
+        backup: yes
+      tags:
+        - "base-config:sudo-tty"
 
-- name: enable sudo without tty for some ansible commands
-  replace:
-    path: /etc/sudoers
-    regexp: '^Defaults\s*requiretty'
-    replace: 'Defaults  !requiretty'
-    backup: yes
+    - name: enable yum repos
+      template:
+        src: "{{ item.src }}"
+        dest: "/etc/yum.repos.d/{{ item.path }}"
+        mode: 0644
+      with_filetree:
+        - "{{role_path}}/templates/repos"
+      when: '".repo" in item.path'
+      tags: 
+        - "base-config:custom-yum"
 
-- name: enable repos
-  template:
-    src: "{{ item.src }}"
-    dest: "/etc/yum.repos.d/{{ item.path }}"
-    mode: 0644
-  with_filetree:
-    - "{{role_path}}/templates/repos"
-  when: '".repo" in item.path'
-
-- name: install base tools and packages
-  package:
-    name: "{{ item }}"
-    state: latest
-  loop: "{{ base_packages }}"
+    - name: install base tools and packages
+      package:
+        name: "{{ item }}"
+        state: latest
+      loop: "{{ base_packages }}"
+      tags: 
+        - "base-config:base-packages"

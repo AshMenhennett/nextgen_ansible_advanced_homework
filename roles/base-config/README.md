@@ -1,7 +1,7 @@
-Create In-Memory OSP Inventory
+Base Server Configuration
 =========
 
-Gather all OSP Instances by Metadata into in-memory Inventory
+Configure the Base System
 
 Requirements
 ------------
@@ -11,7 +11,10 @@ N/A
 Role Variables
 --------------
 
-N/A
+```yaml
+own_repo_path: example.com
+base_packages: []
+```
 
 Dependencies
 ------------
@@ -24,10 +27,11 @@ Example Playbook
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
 ```yaml
-- hosts: workstation
-  gather_facts: true
+- name: setup system
+  hosts: frontends
+  become: yes
   roles:
-  - name: osp-facts
+    - {name: base-config, tags: base-config}
 ```
 
 License

@@ -28,6 +28,7 @@
     - name: Output Failure Message
       debug:
         msg: "OSP Provisioning Failed. Cleaning up Environment."
+        
     - name: Clean up Failed Instances
       os_server: 
         name: "{{item.value.name}}"

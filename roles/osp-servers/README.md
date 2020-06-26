@@ -1,31 +1,104 @@
-Role Name
+OSP Instance Provisioning
 =========
 
-A brief description of the role goes here.
+Provision the OpenStack Instances.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+N/A
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+```yaml
+---
+# vars file for osp.servers
+osp_servers:
+  frontend:
+    name: frontend
+    state: present
+    image: rhel-guest
+    key_name: ansible_ssh
+    flavor: m1.medium
+    security_group: frontend
+    net_interface: 
+      - net-name: int_network
+    int_network: int_network
+    ext_network: ext_network
+    meta:
+      - { group: frontends, deployment_name: QA}
+  app1:
+    name: app1
+    state: present
+    image: rhel-guest
+    key_name: ansible_ssh
+    flavor: m1.medium
+    security_group: apps
+    net_interface: 
+      - net-name: int_network
+    int_network: int_network
+    ext_network: ext_network
+    meta:
+      - { group: apps, deployment_name: QA}
+  app2:
+    name: app2
+    state: present
+    image: rhel-guest
+    key_name: ansible_ssh
+    flavor: m1.medium
+    security_group: apps
+    net_interface: 
+      - net-name: int_network
+    int_network: int_network
+    ext_network: ext_network
+    meta:
+      - { group: apps, deployment_name: QA}
+  db:
+    name: db
+    state: present
+    image: rhel-guest
+    key_name: ansible_ssh
+    flavor: m1.medium
+    security_group: db
+    net_interface: 
+      - net-name: int_network
+    int_network: int_network
+    ext_network: ext_network
+    meta:
+      - { group: appdbs, deployment_name: QA}
+
+global_userdata: |-
+    #!/bin/bash
+    ls -l /home/
+    mkdir -p /home/cloud-user/.ssh/authorized_keys 
+    curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
+    cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys 
+    echo '{{extra_ssh_key}}' >> /home/cloud-user/.ssh/authorized_keys
+
+extra_ssh_key: /root/.ssh/somekey.pub
+provided_keys: lookup('file', "{{extra_ssh_key}}")
+
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+N/A
 
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- hosts: localhost
+  connection: local
+  become: no
+  gather_facts: true
+  roles:
+   - osp-servers
+```
 
 License
 -------
@@ -35,4 +108,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Red Hat Training

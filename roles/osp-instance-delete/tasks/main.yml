@@ -1,12 +1,14 @@
 ---
 # tasks file for roles/osp-instance-delete
-  - name: Fetch Instance Info
-    os_server_info:
-      cloud: devstack
-    register: osp_env
+- name: Clean up OSP Environment
+  block:
+    - name: Fetch Instance Info
+      os_server_info:
+        cloud: devstack # Supports Ansible Tower Credentials
+      register: osp_env
 
-  - name: Clean up Failed Instances
-    os_server:
-      name: "{{item.name}}"
-      state: absent
-    loop: "{{osp_env.openstack_servers }}"
+    - name: Clean up Failed Instances
+      os_server:
+        name: "{{item.name}}"
+        state: absent
+      loop: "{{ osp_env.openstack_servers }}"
