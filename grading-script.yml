@@ -17,7 +17,7 @@
   tasks:
   - name: OpenStack servers
     os_server_info:
-      cloud: openstack
+      cloud: devstack
       server: 'frontend'
     register: openstack_info
   
